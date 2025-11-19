@@ -1,4 +1,5 @@
 # Neurodegenerative Disease Progression Model for Parkinson's Disease Analysis
+
 Yuan Zhou
 
 ## Introduction
@@ -28,15 +29,18 @@ The folder "utils" contains some utility functions.
 ## Mixture of Linear Dynamical Systems
 
 The MLDS models the exponential decay of signals in the DaTscans using a linear dynamical system (LDS) with *t*-distributed noise residues and a centrosymmetric transition matrix. Extending this LDS to K distinct transition matrices and noise variances, we can capture the subtypes inherent in the dataset.
-  
+
 <img align="right" width="320" src="./figure/mlds_graphical_model.jpg">
 
-
 To see the demo, change the directory to "mlds" in Matlab and run
+
 ```
 run_algo;
 ```
 
+The code also contains multiple variants of the MLDS model, including the Gaussian noise case, the EM algorithm case. The "method" field in options can be changed from 'multiple_Gibbs_finite_t' to 'Gibbs_finite' or 'EM' to use these variants.
+
+In addition, the centrosymmetric constraint can also be replaced by other constraints. Set "use_centrosym = 0" in options.predict_params to remove the centrosymmetric constraint. Set "options.predict_params.E_for_A" to a designed basis to use other constraints on the transition matrix. The default basis is eye(D^2), i.e. no contraints on the transition matrix. Note that specifying other constraints is only applicable to the Gibbs sampling algorithm ('Gibbs_finite', 'Gibbs_finite_t', etc).
 
 #### Organization
 
@@ -50,7 +54,6 @@ The "utility" folder contains the utility code used for the MLDS.
 
 The "data" folder contains the processed DaTscan data.
 
-
 ## Contact
 
 If you have any questions, please contact:
@@ -60,4 +63,3 @@ Department of Radiology and Biomedical Imaging
 Yale School of Medicine  
 
 zhouyuanzxcv@gmail.com
-

@@ -3,7 +3,7 @@ function run_algo(options)
 %   Detailed explanation goes here
 if nargin < 1
     options = [];
-%     options.dataset_name = './data/demo/synthetic_noise_3.mat';
+    options.dataset_name = './data/demo/synthetic_noise_2.mat';
 
 
     % This is the dataset for PPMI datscans. The name is long but it does
@@ -14,8 +14,7 @@ if nargin < 1
     % shift the images such that it is flipped along the 45th column. The
     % atlas is dilated by 1 voxel to capture the partial volume effect.
     
-%     options.dataset_name = 'processed_images_flipped_shifted_dilate_1';
-    options.dataset_name = 'processed_images_flipped_shifted_dilate_1_2021';
+    % options.dataset_name = 'processed_images_flipped_shifted_dilate_1_2021';
     
 %     options.dataset_name = 'csv_file_363';
 %     options.dataset_name = 'csv_file';
@@ -33,6 +32,11 @@ if nargin < 1
 
     % change it to zero to use a full transition matrix
     options.predict_params.use_centrosym = 1;
+
+    % If A is not a centrosymmetric matrix, specific the basis E for A,
+    % i.e. vec(A) = E_for_A * a. The default basis is an identity matrix,
+    % i.e. no constraint on the transition matrix.
+    options.predict_params.E_for_A = [];
     
 %     options.method = 'EM';
 %     options.alpha = 0.1 * options.K;
@@ -56,8 +60,10 @@ use_parfor = parse_param(options,'use_parfor',0);
 
 train_inds = parse_param(options,'train_inds',[]);
 test_inds = parse_param(options,'test_inds',[]);
+
+[filepath,name,ext] = fileparts(dataset_name);
 result_filename = parse_param(options, 'result_filename', ...
-    ['results/result_',dataset_name,'_',method,'_',num2str(K),'.mat']);
+    ['results/result_',name,'_',method,'_',num2str(K),'.mat']);
 
 dataset = load_dataset(dataset_name, train_inds, test_inds, options);
 
@@ -172,6 +178,13 @@ for k = 1:K
     [V,D] = eigs(model.As(:,:,k));
     V
     d = diag(D)'
+end
+
+if isfield(dataset, 'extra') && isfield(dataset.extra, 'class_inds')
+    [~, class_inds_est] = max(r_sk, [], 2);
+    ari = rand_index(dataset.extra.class_inds, class_inds_est);
+    disp('ARI between the ground truth clustering and the estimated clustering')
+    ari
 end
 
 save(result_filename, 'dataset_name', 'method', 'K', 'model', ...

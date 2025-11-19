@@ -32,7 +32,12 @@ classdef ClusterConjugatePrior < TimeSeriesCluster
             if obj.use_centrosym
                 obj.E = calc_basis_for_centrosym_mat(D);
             else
-                obj.E = eye(D);
+                E = parse_param(params, 'E_for_A', []);
+                if isempty(E)
+                    obj.E = eye(D^2);
+                else
+                    obj.E = E;
+                end
             end
             DOF = size(obj.E, 2);
             
