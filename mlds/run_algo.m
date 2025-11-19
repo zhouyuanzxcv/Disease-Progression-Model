@@ -34,7 +34,7 @@ if nargin < 1
     options.predict_params.use_centrosym = 1;
 
     % If A is not a centrosymmetric matrix, specific the basis E for A,
-    % i.e. vec(A) = E_for_A * a. The default basis is an identity matrix,
+    % i.e. A(:) = E_for_A * a. The default basis is an identity matrix,
     % i.e. no constraint on the transition matrix.
     options.predict_params.E_for_A = [];
     

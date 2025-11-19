@@ -40,7 +40,7 @@ run_algo;
 
 The code also contains multiple variants of the MLDS model, including the Gaussian noise case, the EM algorithm case. The "method" field in options can be changed from 'multiple_Gibbs_finite_t' to 'Gibbs_finite' or 'EM' to use these variants.
 
-In addition, the centrosymmetric constraint can also be replaced by other constraints. Set "use_centrosym = 0" in options.predict_params to remove the centrosymmetric constraint. Set "options.predict_params.E_for_A" to a designed basis to use other constraints on the transition matrix. The default basis is eye(D^2), i.e. no contraints on the transition matrix. Note that specifying other constraints is only applicable to the Gibbs sampling algorithm ('Gibbs_finite', 'Gibbs_finite_t', etc).
+In addition, the centrosymmetric constraint can also be replaced by other constraints. Set "use_centrosym = 0" in options.predict_params to remove the centrosymmetric constraint. Set "options.predict_params.E_for_A" to a designed basis to use other constraints on the transition matrix A which can written as A(:) = E_for_A \* a where a contains the unique elements to be inferred. The default basis is eye(D^2), i.e. no contraints on the transition matrix. Note that specifying other constraints is only applicable to the Gibbs sampling algorithm ('Gibbs_finite', 'Gibbs_finite_t', etc).
 
 #### Organization
 
