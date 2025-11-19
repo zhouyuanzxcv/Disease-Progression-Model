@@ -3,7 +3,7 @@ function K_optimal = bayesian_model_selection_t(dataset_name)
 %   Detailed explanation goes here
 if nargin < 1
 %     dataset_name = 'processed_images';
-    dataset_name = 'processed_images_flipped_shifted_dilate_1';
+    dataset_name = 'processed_images_flipped_shifted_dilate_1_2021';
     % dataset_name = 'csv_file_363';
     % dataset_name = 'csv_file';
 end
@@ -17,7 +17,7 @@ method = 'multiple_Gibbs_finite_t';
 
 savefile = ['analysis/',dataset_name,'_bayesian_model_selection_result_t.mat'];
 
-if 0
+if 1
     parfor K = 1:Kmax
 %         try
             options = [];
@@ -36,7 +36,7 @@ if 0
     end
 end
 
-if 0
+if 1
     for K = 1:Kmax
         file_name = ['analysis/result_',dataset_name,'_',method,...
             '_bayesian_model_selection_',num2str(K),'.mat'];

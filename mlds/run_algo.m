@@ -3,7 +3,7 @@ function run_algo(options)
 %   Detailed explanation goes here
 if nargin < 1
     options = [];
-    options.dataset_name = './data/demo/synthetic_noise_3.mat';
+%     options.dataset_name = './data/demo/synthetic_noise_3.mat';
 
 
     % This is the dataset for PPMI datscans. The name is long but it does
@@ -13,7 +13,9 @@ if nargin < 1
     % the image and the atlas are centered at the 45th column, we need to
     % shift the images such that it is flipped along the 45th column. The
     % atlas is dilated by 1 voxel to capture the partial volume effect.
+    
 %     options.dataset_name = 'processed_images_flipped_shifted_dilate_1';
+    options.dataset_name = 'processed_images_flipped_shifted_dilate_1_2021';
     
 %     options.dataset_name = 'csv_file_363';
 %     options.dataset_name = 'csv_file';
@@ -28,6 +30,9 @@ if nargin < 1
     % This is the method proposed in the paper. The 'multiple' in the name
     % means we run multiple (5) chains.
     options.method = 'multiple_Gibbs_finite_t';
+
+    % change it to zero to use a full transition matrix
+    options.predict_params.use_centrosym = 1;
     
 %     options.method = 'EM';
 %     options.alpha = 0.1 * options.K;
@@ -104,7 +109,7 @@ switch method
         % use Gibbs sampling for finite mixture
         [model, r_sk, extra] = fit_LDS_gibbs(train_data, train_ts, K, options);
     case 'Gibbs_finite_wo_centrosym'
-        options.use_centrosym = 0;
+        options.predict_params.use_centrosym = 0;
         [model, r_sk, extra] = fit_LDS_gibbs(train_data, train_ts, K, options);
     case 'Gibbs_finite_t'
         [model, r_sk, extra] = fit_LDS_gibbs_t(train_data, train_ts, K, options);

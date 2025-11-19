@@ -55,6 +55,7 @@ Temporary Items
 *.asv
 *.zip
 *.Rdata
+*.7z
 
 mlds/*.xlsx
 mlds/*.mat

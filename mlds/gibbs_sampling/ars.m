@@ -266,7 +266,8 @@ left = upperHull(li).left;
 right = upperHull(li).right;
 
 M = max(m*left, m*right);
-x = (log( U*(exp(m*right - M) - exp(m*left - M)) + exp(m*left - M) ) + M) / m;
+x = (log( U*(exp(m*right - M) - exp(m*left - M)) + exp(m*left - M) ) + M)
+/ m;
 
 if isinf(x) || isnan(x)
 	error('sampled an infinite or NaN x');

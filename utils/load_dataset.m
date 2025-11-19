@@ -14,6 +14,7 @@ switch dataset_name
     case {'processed_images','processed_images_flipped',...
             'processed_images_flipped_shifted', ...
             'processed_images_flipped_shifted_dilate_1', ...
+            'processed_images_flipped_shifted_dilate_1_2021', ...
             'processed_images_flipped_shifted_dilate_2', ...
             'processed_images_flipped_shifted_dilate_3', ...
             'processed_images_using_masks_flipped_registered', ...
@@ -28,10 +29,10 @@ switch dataset_name
     %             all_image_data{i}(4,:) = all_image_data{i}(4,:) + 0.1;
     %         end
             
-            save(['./data/', dataset_name, '_data.mat'],'all_image_data', ...
+            save(['../mlds/data/', dataset_name, '_data.mat'],'all_image_data', ...
                 'all_elapsed_days','subject_ids','labels','extra');
         else
-            load(['./data/', dataset_name, '_data.mat']);
+            load(['../mlds/data/', dataset_name, '_data.mat']);
         end
         dataset.first_dates = extra.first_dates;
         dataset.ages = extra.ages;
@@ -93,11 +94,22 @@ switch dataset_name
         if isfield(S, 'first_dates')
             dataset.first_dates = S.first_dates;
         end
+        if isfield(S, 'extra')
+            if isfield(S.extra, 'ages')
+                dataset.ages = S.extra.ages;
+            end
+            if isfield(S.extra, 'genders')
+                dataset.genders = S.extra.genders;
+            end
+            if isfield(S.extra, 'first_dates')
+                dataset.first_dates = S.extra.first_dates;
+            end
+        end
 end
 
 % change (LC, RC, LP, RP) to (LC, LP, RP, RC)
 % reorder = [1 3 4 2]; 
-if ~isempty(labels) && length(labels) == 4
+if ~isempty(labels) && strcmp(labels{1},'LC')
     [labels, reorder] = reorder_labels(labels, {'LC','LP','RP','RC'});
     for i = 1:length(all_image_data)
         all_image_data{i} = all_image_data{i}(reorder,:);

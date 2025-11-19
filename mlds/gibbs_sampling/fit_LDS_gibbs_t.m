@@ -4,7 +4,7 @@ function [model, r_ik, extra] = fit_LDS_gibbs_t(X, ts, K, options)
 t_start = tic;
 
 alpha = parse_param(options,'alpha',K);
-num_iter = parse_param(options,'num_iter',1500);
+num_iter = parse_param(options,'num_iter',1000);
 % predict_method = parse_param(options,'predict_method','ConjugatePrior');
 predict_params = parse_param(options,'predict_params',[]);
 burn_in_ratio = parse_param(options,'burn_in_ratio',0.5);
